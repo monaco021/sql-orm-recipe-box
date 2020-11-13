@@ -1,0 +1,133 @@
+'use strict';
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('MeasurementUnits', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      name: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        unique: true
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('MeasurementUnits');
+  }
+};
+
+'use strict';
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('recipes', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      title: {
+        type: Sequelize.STRING(200),
+        allowNull: false
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('recipes');
+  }
+};
+
+'use strict';
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('instructions', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      specification: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
+      listOrder: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      recipeId: {
+        allowNull: false,
+        references: { model: "Recipes" },
+        type: Sequelize.INTEGER
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('instructions');
+  }
+};
+
+
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const instructions = sequelize.define('instructions', {
+    specification: DataTypes.TEXT,
+    listOrder: DataTypes.INTEGER,
+    recipeId: DataTypes.INTEGER
+  }, {});
+  instructions.associate = function(models) {
+    // associations can be defined here
+  };
+  return instructions;
+};
+
+
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const MeasurementUnit = sequelize.define('MeasurementUnit', {
+    name: DataTypes.STRING
+  }, {});
+  MeasurementUnit.associate = function(models) {
+    // associations can be defined here
+  };
+  return MeasurementUnit;
+};
+
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const recipe = sequelize.define('recipe', {
+    title: DataTypes.STRING
+  }, {});
+  recipe.associate = function(models) {
+    // associations can be defined here
+  };
+  return recipe;
+};
